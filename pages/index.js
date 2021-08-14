@@ -1,6 +1,6 @@
 import Head from 'next/head'
+import { DynamicMolViewerAlt } from '../components/dynamic'
 import styles from '../styles/Home.module.css'
-import { DynamicMolViewer } from '../components/dynamic'
 
 export default function Home() {
   return (
@@ -11,7 +11,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <DynamicMolViewer path="rcsb://4hhb" />
+      <DynamicMolViewerAlt />
     </>
   )
 }
