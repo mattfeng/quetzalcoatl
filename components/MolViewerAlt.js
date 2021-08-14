@@ -1,29 +1,41 @@
 import { useEffect, useRef } from 'react'
 
 function MolViewerAlt() {
+  const styles = {
+    width: '400px',
+    height: '300px',
+  }
   useEffect(() => {
     window.$ = require('../public/jquery')
     window.$3Dmol = require('../public/3Dmol-nojquery.js')
 
     console.log('hello')
 
-    let config = { backgroundColor: 'orange' }
+    let config = { backgroundColor: 'white' }
     let element = window.$('#molViewer')
 
     console.log('element', element)
 
     let viewer = window.$3Dmol.createViewer(element, config)
-    viewer.addSphere({
-      center: { x: 0, y: 0, z: 0 },
-      radius: 10.0,
-      color: 'green',
+
+    let uri =
+      'https://raw.githubusercontent.com/openbioscience/biochem-book-assets/main/imatinib.sdf'
+    window.$.ajax(uri, {
+      success: function (data) {
+        let v = viewer
+        v.addModel(data, 'sdf') /* load data */
+        v.setStyle({ stick: {} }) /* style all atoms */
+        v.zoomTo() /* set camera */
+        v.render() /* render scene */
+        v.zoom(1.2, 1000) /* slight zoom */
+      },
+      error: function (hdr, status, err) {
+        console.error('Failed to load SDF' + uri + ': ' + err)
+      },
     })
-    viewer.zoomTo()
-    viewer.render()
-    viewer.zoom(0.8, 2000)
   }, [])
 
-  return <div id="molViewer" className="mol-container"></div>
+  return <div id="molViewer" style={styles}></div>
 }
 
 export default MolViewerAlt
