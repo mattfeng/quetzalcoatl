@@ -1,6 +1,6 @@
 import { serialize } from 'next-mdx-remote/serialize'
 import { MDXRemote } from 'next-mdx-remote'
-import { DynamicMolViewer } from '../components/dynamic'
+import { DynamicMolViewer, DynamicMolViewerAlt } from '../components/dynamic'
 import Image from '../components/Image'
 import axios from 'axios'
 
@@ -8,6 +8,7 @@ import { MDX_CONTENT_URL } from '../config'
 
 const components = {
   MolViewer: DynamicMolViewer,
+  ThreeDMol: DynamicMolViewerAlt,
   Image,
 }
 

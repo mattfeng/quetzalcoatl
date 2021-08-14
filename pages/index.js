@@ -11,7 +11,14 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <DynamicMolViewerAlt />
+      <DynamicMolViewerAlt
+        type="sdf"
+        path="https://raw.githubusercontent.com/openbioscience/public-assets/main/levothyroxine.sdf"
+      />
+      <DynamicMolViewerAlt
+        type="sdf"
+        path="https://raw.githubusercontent.com/openbioscience/public-assets/main/imatinib.sdf"
+      />
     </>
   )
 }
