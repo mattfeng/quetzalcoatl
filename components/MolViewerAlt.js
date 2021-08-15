@@ -26,22 +26,38 @@ const handleSDF = ($, viewer, uri) => {
   })
 }
 
-const handlePDB = ($, viewer, uri) => {
+const handlePDB = ($, viewer, uri, modelStyle) => {
   $.ajax(uri, {
     success: function (data) {
       let v = viewer
-      v.addModel(data, 'pdf') /* load data */
-      v.setStyle({ cartoon: { color: 'spectrum' } }) /* style all atoms */
+      v.addModel(data, 'pdb') /* load data */
+
+      if (modelStyle) {
+        for (let sty of JSON.parse(modelStyle)) {
+          viewer.setStyle(...sty)
+        }
+      } else {
+        v.setStyle({}, { cartoon: { color: 'spectrum' } }) /* style all atoms */
+      }
+
       v.zoomTo() /* set camera */
       v.render() /* render scene */
     },
     error: function (hdr, status, err) {
-      console.error('Failed to load SDF' + uri + ': ' + err)
+      console.error('Failed to load PDB' + uri + ': ' + err)
     },
   })
 }
 
-function MolViewerAlt({ path, type, width, height }) {
+function MolViewerAlt({
+  path,
+  type,
+  width,
+  height,
+  initialView,
+  modelStyle,
+  children,
+}) {
   const viewerId = useMemo(() => makeid(8), [])
 
   const styles = {
@@ -61,15 +77,25 @@ function MolViewerAlt({ path, type, width, height }) {
     console.log('MolViewerAlt element:', element)
 
     let viewer = window.$3Dmol.createViewer(element, config)
+    window[`viewer${viewerId}`] = viewer
 
     if (type === 'sdf') {
       handleSDF(window.$, viewer, path)
     } else if (type === 'pdb') {
-      handlePDB(window.$, viewer, path)
+      handlePDB(window.$, viewer, path, modelStyle)
+    }
+
+    if (initialView) {
+      viewer.setView(JSON.parse(initialView))
     }
   }, [])
 
-  return <div id={viewerId} style={styles}></div>
+  return (
+    <div>
+      <div id={viewerId} style={styles}></div>
+      <div>{children}</div>
+    </div>
+  )
 }
 
 export default MolViewerAlt
