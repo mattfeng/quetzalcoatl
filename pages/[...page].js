@@ -2,13 +2,20 @@ import { serialize } from 'next-mdx-remote/serialize'
 import { MDXRemote } from 'next-mdx-remote'
 import { DynamicMolViewer, DynamicMolViewerAlt } from '../components/dynamic'
 import Image from '../components/Image'
+import InlineMath from '../components/InlineMath'
 import axios from 'axios'
+import remarkMath from 'remark-math'
+import rehypeKatex from 'rehype-katex'
+
+require('katex/dist/katex.min.css')
+require('katex/dist/contrib/mhchem.js')
 
 import { MDX_CONTENT_URL } from '../config'
 
 const components = {
   MolViewer: DynamicMolViewer,
   ThreeDMol: DynamicMolViewerAlt,
+  M: InlineMath,
   Image,
 }
 
@@ -43,7 +50,12 @@ export async function getServerSideProps({ params, req, res }) {
     }
   }
 
-  const mdxSource = await serialize(source)
+  const mdxSource = await serialize(source, {
+    mdxOptions: {
+      remarkPlugins: [remarkMath],
+      rehypePlugins: [[rehypeKatex, { strict: 'ignore' }]],
+    },
+  })
 
   return {
     props: {
