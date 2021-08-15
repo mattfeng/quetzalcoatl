@@ -3,6 +3,9 @@ import { MDXRemote } from 'next-mdx-remote'
 import { DynamicMolViewer, DynamicMolViewerAlt } from '../components/dynamic'
 import Image from '../components/Image'
 import InlineMath from '../components/InlineMath'
+import Figure from '../components/Figure'
+import Caption from '../components/Caption'
+import PageTemplate from '../components/PageTemplate'
 import axios from 'axios'
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
@@ -16,6 +19,8 @@ const components = {
   MolViewer: DynamicMolViewer,
   ThreeDMol: DynamicMolViewerAlt,
   M: InlineMath,
+  Figure,
+  Caption,
   Image,
 }
 
@@ -25,9 +30,9 @@ function Page({ error, mdxSource }) {
   }
 
   return (
-    <>
+    <PageTemplate>
       <MDXRemote {...mdxSource} components={components} />
-    </>
+    </PageTemplate>
   )
 }
 

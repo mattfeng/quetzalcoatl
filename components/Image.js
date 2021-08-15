@@ -1,13 +1,14 @@
-function Image({ path, width, children }) {
+import styles from '../styles/Image.module.scss'
+
+function Image({ path, width, height }) {
   const style = {
     width,
+    height,
   }
 
   return (
-    <div style={style}>
-      <img width="100%" src={path} />
-
-      <div>{children}</div>
+    <div className={styles.imageContainer}>
+      <img style={style} src={path} />
     </div>
   )
 }

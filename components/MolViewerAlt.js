@@ -64,6 +64,7 @@ function MolViewerAlt({
     width: width || '600px',
     height: height || '400px',
     position: 'relative',
+    margin: '0 auto',
   }
 
   useEffect(() => {
@@ -93,7 +94,6 @@ function MolViewerAlt({
   return (
     <div>
       <div id={viewerId} style={styles}></div>
-      <div>{children}</div>
     </div>
   )
 }
